@@ -1,0 +1,12 @@
+<template>
+    <template if:false={displayPlaceholderImage}>
+        <img src={imageUrl} onclick={imageClick} onerror={diplayImgPlaceholder}/>
+    </template>
+    <template if:true={displayPlaceholderImage}>
+        <lightning-icon icon-name="doctype:unknown" size="large"></lightning-icon>
+    </template>
+    
+    <template if:true={isImageClicked}>
+        <c-photo-modal clicked-image-url={clickedImageUrl} onselected={handleModalClosed}></c-photo-modal>
+    </template>
+</template>

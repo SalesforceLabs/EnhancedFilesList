@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>48.0</apiVersion>
+    <masterLabel>Enhanced Files List</masterLabel>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__AppPage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <supportedFormFactors>
+                <supportedFormFactor type="Small" />
+                <supportedFormFactor type="Large" />
+            </supportedFormFactors>
+            <property name="label" type="String" label="Card Label" default="Enhanced Files" description="The title of the card component" />
+            <property name="icon" type="String" label="Card Icon" default="standard:file" description="The Lightning Design System name of the icon"/>
+            <property name="uploadFiles" type="Boolean" label="Upload Files" default="false" description="Allow users to upload files" />
+            <property name="downloadFiles" type="Boolean" label="Download Multiple Files" default="false" description="Allow users to download multiple files" />
+            <property name="cardHeight" type="Integer" label="Card Height" default="300" description="Set the height of the component" />
+            <property name="minMobileColumns" type="Integer" label="Number of Mobile Columns Shown" default="3"  description="Mobile and Small Flexipage Components Only: Configure the minimum number columns for smaller contexts" />
+            <property name="pageSize" type="Integer" label="Records per Page" default="10" description="Number of records per paginated page"/>
+            <property name="column1" type="String" label="Column 1" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 1st column" />
+            <property name="column2" type="String" label="Column 2" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 2nd column" />
+            <property name="column3" type="String" label="Column 3" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 3rd column" />
+            <property name="column4" type="String" label="Column 4" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 4th column" />
+            <property name="column5" type="String" label="Column 5" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 5th column" />
+            <property name="column6" type="String" label="Column 6" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 6th column" />
+            <property name="column7" type="String" label="Column 7" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 7th column" />
+            <property name="column8" type="String" label="Column 8" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 8th column" />
+            <property name="column9" type="String" label="Column 9" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 9th column" />
+            <property name="column10" type="String" label="Column 10" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 10th column" />
+        </targetConfig>
+        <targetConfig targets="lightning__HomePage,lightning__AppPage">
+            <supportedFormFactors>
+                <supportedFormFactor type="Small" />
+                <supportedFormFactor type="Large" />
+            </supportedFormFactors>
+            <property name="recordId" type="String" label="Record ID" required="true" description="The Record ID of the related files"/>
+            <property name="label" type="String" label="Card Label" default="Enhanced Files" description="The title of the card component" />
+            <property name="icon" type="String" label="Card Icon" default="standard:file" description="The Lightning Design System name of the icon" />
+            <property name="uploadFiles" type="Boolean" label="Upload Files" default="false" description="Allow users to upload files" />
+            <property name="downloadFiles" type="Boolean" label="Download Multiple Files" default="false" description="Allow users to download multiple files" />
+            <property name="cardHeight" type="Integer" label="Card Height" default="300"  description="Set the height of the component" />
+            <property name="minMobileColumns" type="Integer" label="Number of Mobile Columns Shown" default="3"  description="Mobile and Small Flexipage Components Only: Configure the minimum number columns for smaller contexts" />
+            <property name="pageSize" type="Integer" label="Records per Page" default="10"  description="Number of records per paginated page" />
+            <property name="column1" type="String" label="Column 1" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 1st column" />
+            <property name="column2" type="String" label="Column 2" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 2nd column" />
+            <property name="column3" type="String" label="Column 3" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 3rd column" />
+            <property name="column4" type="String" label="Column 4" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 4th column" />
+            <property name="column5" type="String" label="Column 5" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 5th column" />
+            <property name="column6" type="String" label="Column 6" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 6th column" />
+            <property name="column7" type="String" label="Column 7" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 7th column" />
+            <property name="column8" type="String" label="Column 8" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 8th column" />
+            <property name="column9" type="String" label="Column 9" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 9th column" />
+            <property name="column10" type="String" label="Column 10" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 10th column" />
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="recordId" type="String" label="Record ID" default="{!recordId}"  description="The Record ID of the related files" />
+            <property name="label" type="String" label="Card Label" default="Enhanced Files"  description="The title of the card component" />
+            <property name="icon" type="String" label="Card Icon" default="standard:file"  description="The Lightning Design System name of the icon" />
+            <property name="communityComponentWidth" type="String" label="Component Width" default="LARGE" datasource="LARGE, SMALL"  description="Display in Lightning DataTable or Mobile view" />
+            <property name="uploadFiles" type="Boolean" label="Upload Files" default="false" description="Allow users to upload files" />
+            <property name="downloadFiles" type="Boolean" label="Download Multiple Files" default="false" description="Allow users to download multiple files" />
+            <property name="viewFile" type="Boolean" label="View File Details" default="false" description="Allow users to view file details" />
+            <property name="cardHeight" type="Integer" label="Card Height" default="300" description="Set the height of the component" />
+            <property name="minMobileColumns" type="Integer" label="Number of Mobile Columns Shown" default="3"  description="Mobile and Small Flexipage Components Only: Configure the minimum number columns for smaller contexts" />
+            <property name="pageSize" type="Integer" label="Records per Page" default="10"  description="Number of records per paginated page" />
+            <property name="column1" type="String" label="Column 1" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 1st column" />
+            <property name="column2" type="String" label="Column 2" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 2nd column" />
+            <property name="column3" type="String" label="Column 3" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 3rd column" />
+            <property name="column4" type="String" label="Column 4" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 4th column" />
+            <property name="column5" type="String" label="Column 5" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 5th column" />
+            <property name="column6" type="String" label="Column 6" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 6th column" />
+            <property name="column7" type="String" label="Column 7" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 7th column" />
+            <property name="column8" type="String" label="Column 8" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 8th column" />
+            <property name="column9" type="String" label="Column 9" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 9th column" />
+            <property name="column10" type="String" label="Column 10" datasource="apex://ContentVersionFieldsPicklist" description="Choose the field to be displayed as the 10th column" />   
+            <property name="community" type="String" label="Community" datasource="Community" default="Community" required="true" description="INTERNAL: To determine community context" />
+        </targetConfig>  
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,165 @@
+<template>
+  <div class="slds-page-header" style="background-color: white">
+    <div class="slds-page-header__row">
+      <div class="slds-page-header__col-title">
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container">
+              <lightning-icon icon-name={icon} size="large"></lightning-icon>
+            </span>
+          </div>
+          <div class="slds-media__body">
+            <div class="slds-page-header__name">
+              <div class="slds-page-header__name-title">
+                <h1>
+                  <span
+                    class="slds-page-header__title slds-truncate"
+                    title={label}
+                    >{label}</span
+                  >
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template if:true={zeroFilesData}>
+        <div class="slds-page-header__col-actions">
+          <div class="slds-page-header__controls">
+            <div class="slds-page-header__control">
+              <ul class="slds-button-group-list">
+                <li>
+                  <div
+                    class="slds-dropdown-trigger slds-dropdown-trigger_click"
+                  >
+                    <lightning-button-icon
+                      slot="actions"
+                      icon-name="utility:upload"
+                      class="slds-p-around_xx-small slds-button_icon-x-large"
+                      onclick={handleUploadFiles}
+                    >
+                    </lightning-button-icon>
+                  </div>
+                </li>
+                <li>
+                  <div
+                    class="slds-dropdown-trigger slds-dropdown-trigger_click"
+                  >
+                    <lightning-button-menu
+                      alternative-text="Show menu"
+                      icon-name="utility:sort"
+                      slot="actions"
+                      icon-size="large"
+                      menu-alignment="auto"
+                      class="slds-button_icon-x-large"
+                    >
+                      <template
+                        for:each={filteredColumnList}
+                        for:item="column"
+                        for:index="index"
+                      >
+                        <c-mobile-sort-button-menu
+                          key={column}
+                          column={column}
+                          onselected={handleMobileSortSelected}
+                          object-info={objectInfoData}
+                        >
+                        </c-mobile-sort-button-menu>
+                      </template>
+                    </lightning-button-menu>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+  <template if:true={zeroFilesData}>
+    <template if:true={zeroFilesData}>
+      <p class="slds-page-header__name-meta slds-p-around_x-small">
+        <span>{totalFilesCount} items </span>
+        <template if:true={sortedBy}>
+          <span>•&nbsp;Sorted by {sortedBy} &nbsp;</span>
+          <span>
+            <lightning-button-icon
+              icon-name="utility:sort"
+              alternative-text="Sort"
+              size="small"
+              style="cursor:pointer"
+              onclick={handleMobileSortDirection}
+            ></lightning-button-icon>
+          </span>
+        </template>
+      </p>
+    </template>
+    <template if:true={filesModal}>
+      <div style="float:right" class="slds-p-right_medium">
+        <lightning-button-icon
+          icon-name="utility:close"
+          alternative-text="close"
+          size="small"
+          style="cursor:pointer"
+          onclick={handleFileModalClosed}
+        ></lightning-button-icon>
+      </div>
+      <div class="slds-align_absolute-center slds-p-around_medium">
+        <lightning-file-upload
+          label="Attach Files"
+          slot="actions"
+          name="fileUploader"
+          accept={acceptedFormats}
+          record-id={recordId}
+          onuploadfinished={handleUploadFinished}
+          multiple
+        >
+        </lightning-file-upload>
+      </div>
+    </template>
+    <div class="mobileCardList" style="background-color: white">
+      <c-mobile-data-table
+        files-data={paginatedData}
+        columns={columns}
+        number-of-columns={minMobileColumns}
+      >
+      </c-mobile-data-table>
+      <span class="slds-m-around_xx-small slds-align_absolute-center slds-p-top_x-small slds-p-bottom_medium">
+        <template if:true={displayNextIcon}>
+          <lightning-button
+            label="View More"
+            title="Non-primary action"
+            onclick={handleMobileViewMore}
+            class="slds-m-left_x-small"
+          ></lightning-button>
+        </template>
+      </span>
+    </div>
+  </template>
+  <template if:false={zeroFilesData}>
+    <c-no-files-view></c-no-files-view>
+    <template if:true={uploadFiles}>
+      <div style="float:right" class="slds-p-right_medium">
+        <lightning-button-icon
+          icon-name="utility:close"
+          alternative-text="close"
+          size="small"
+          style="cursor:pointer"
+          onclick={handleFileModalClosed}
+        ></lightning-button-icon>
+      </div>
+      <div class="slds-align_absolute-center slds-p-around_medium">
+        <lightning-file-upload
+          label="Attach Files"
+          slot="actions"
+          name="fileUploader"
+          accept={acceptedFormats}
+          record-id={recordId}
+          onuploadfinished={handleUploadFinished}
+          multiple
+        >
+        </lightning-file-upload>
+      </div>
+    </template>
+  </template>
+</template>

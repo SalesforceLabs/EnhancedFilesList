@@ -1,0 +1,281 @@
+<template>
+  <template if:true={isDesktopView}>
+    <lightning-card>
+      <h3 slot="title">
+        <lightning-icon icon-name={icon} size="medium"></lightning-icon>
+        <span class="slds-p-left_x-small">{label}</span>
+      </h3>
+      <template if:true={uploadFiles}>
+        <lightning-button-icon
+          slot="actions"
+          icon-name="utility:upload"
+          class="slds-p-around_xx-small"
+          onclick={handleUploadFiles}
+          alternative-text="Upload"
+        >
+        </lightning-button-icon>
+      </template>
+      <template if:true={zeroFilesData}>
+        <template if:true={isSmallFlexiPageView}>
+          <template if:true={downloadFiles}>
+            <lightning-button-menu
+              alternative-text="Show menu"
+              icon-name="utility:download"
+              slot="actions"
+              icon-size="large"
+              menu-alignment="auto"
+              class="slds-button_icon-x-large"
+            >
+              <lightning-menu-item
+                value="downloadSeletedFiles"
+                label="Download Selected Files"
+                onclick={handleDownloadFiles}
+                disabled={areMultipleFilesSelected}
+              ></lightning-menu-item>
+              <lightning-menu-item
+                value="downloadAllFiles"
+                label="Download All Files"
+                onclick={handleDownloadAllFiles}
+              ></lightning-menu-item>
+            </lightning-button-menu>
+          </template>
+
+          <lightning-button-icon-stateful
+            slot="actions"
+            icon-name="utility:filterList"
+            selected={filterState}
+            onclick={handleFilterButtonClick}
+            alternative-text="Filter"
+            class="slds-p-around_xx-small"
+          ></lightning-button-icon-stateful>
+          <template if:false={community}>
+            <lightning-button-menu
+              alternative-text="Show menu"
+              icon-name="utility:multi_select_checkbox"
+              slot="actions"
+              icon-size="large"
+              menu-alignment="auto"
+              class="slds-button_icon-x-large"
+            >
+              <lightning-menu-item
+                value="viewSeletedFiles"
+                label="View Selected Files"
+                onclick={handleSelectedFiles}
+                disabled={areMultipleFilesSelected}
+              ></lightning-menu-item>
+            </lightning-button-menu>
+          </template>
+          <div class="slds-grid slds-p-around_medium">
+            <p
+              class="slds-page-header__name-meta slds-col slds-size_7-of-12 slds-col_bump-right slds-p-top_x-small"
+            >
+              <span>{totalFilesCount} items </span>
+              <template if:false={areMultipleFilesSelected}>
+                <span>•&nbsp;{fileSize} MB </span>
+              </template>
+              <template if:true={sortedBy}>
+                <span>•&nbsp;Sorted by {sortedByLabel} &nbsp;</span>
+                <lightning-button-icon
+                  icon-name="utility:sort"
+                  alternative-text="Sort"
+                  size="x-small"
+                  style="cursor:pointer"
+                  onclick={handleMobileSortDirection}
+                ></lightning-button-icon>
+              </template>
+              <span> </span>
+            </p>
+            <template if:true={filterState}>
+              <p class="slds-col slds-size_5-of-12 slds-col_bump-left">
+                <span
+                  onkeyup={handleSearchTermChange}
+                  onfocusout={handleFoucsOutSearch}
+                >
+                  <lightning-input
+                    type="search"
+                    variant="label-hidden"
+                    class="slds-m-bottom_small"
+                    label="Search"
+                    placeholder={filterSearchPlaceHolder}
+                  >
+                  </lightning-input>
+                </span>
+              </p>
+            </template>
+          </div>
+          <div style={cardHeightStyle}>
+            <lightning-datatable
+              key-field="Id"
+              id="ContentDocumentId"
+              data={paginatedData}
+              columns={columns}
+              onsave={handleSave}
+              draft-values={draftValues}
+              default-sort-direction={defaultSortDirection}
+              sorted-direction={sortDirection}
+              sorted-by={sortedBy}
+              onsort={onHandleSort}
+              onrowaction={handleRowAction}
+              onrowselection={getSelectedRows}
+            >
+            </lightning-datatable>
+          </div>
+          <div class="slds-m-around_medium slds-align_absolute-center">
+            <c-paginator
+              onprevious={previousHandler}
+              onnext={nextHandler}
+              display-previous={displayPreviousIcon}
+              display-next={displayNextIcon}
+              page={page}
+              total-page={totalPage}
+            >
+            </c-paginator>
+          </div>
+        </template>
+
+        <template if:false={isSmallFlexiPageView}>
+          <p class="slds-p-around_small slds-page-header__name-meta">
+            <span>
+              <span>{totalFilesCount} items </span>
+              <template if:true={sortedBy}>
+                <span>•&nbsp;Sorted by {sortedByLabel} &nbsp;</span>
+                <span>
+                  <lightning-button-icon
+                    icon-name="utility:sort"
+                    alternative-text="Sort"
+                    size="x-small"
+                    style="cursor:pointer"
+                    onclick={handleMobileSortDirection}
+                  ></lightning-button-icon>
+                </span>
+              </template>
+            </span>
+          </p>
+          <template if:true={downloadFiles}>
+            <lightning-button-icon
+              slot="actions"
+              icon-name="utility:download"
+              class="slds-p-around_xx-small"
+              onclick={handleDownloadAllFiles}
+              alternative-text="Download"
+            >
+            </lightning-button-icon>
+          </template>
+
+          <lightning-button-menu
+            alternative-text="Show menu"
+            icon-name="utility:sort"
+            slot="actions"
+            icon-size="large"
+            menu-alignment="auto"
+            class="slds-button_icon-x-large"
+          >
+            <template
+              for:each={filteredColumnList}
+              for:item="column"
+              for:index="index"
+            >
+              <c-mobile-sort-button-menu
+                key={column}
+                column={column}
+                onselected={handleMobileSortSelected}
+                object-info={objectInfoData}
+              >
+              </c-mobile-sort-button-menu>
+            </template>
+          </lightning-button-menu>
+
+          <div
+            style={cardHeightStyle}
+            class="mobileCardList slds-p-top_x-small"
+          >
+            <template if:true={filesData}>
+              <template if:true={displayColumns}>
+
+              
+                <c-mobile-data-table
+                  files-data={paginatedData}
+                  columns={columns}
+                  number-of-columns={minMobileColumns}
+                  community={community}
+                  view-file={viewFile}
+                  ontablerefresh={dataTableRefresh}
+                >
+                </c-mobile-data-table>
+              </template>
+            </template>
+
+            <span
+              class="slds-m-around_xx-small slds-align_absolute-center slds-p-top_x-small"
+            >
+              <template if:true={displayNextIcon}>
+                <lightning-button
+                  label="View More"
+                  title="Non-primary action"
+                  onclick={handleMobileViewMore}
+                  class="slds-m-left_x-small"
+                ></lightning-button>
+              </template>
+            </span>
+          </div>
+        </template>
+      </template>
+
+      <template if:false={zeroFilesData}>
+        <c-no-files-view></c-no-files-view>
+      </template>
+    </lightning-card>
+  </template>
+
+  <template if:false={isDesktopView}>
+    <div class="slds-tabs-mobile__container" onclick={mobileTabClicked}>
+      <ul class="slds-tabs-mobile">
+        <li class="slds-tabs-mobile__item">
+          <button class="slds-button slds-button_full-width">
+            <span>
+              <lightning-icon icon-name={icon} size="medium"></lightning-icon>
+            </span>
+            <span class="slds-truncate slds-float_left">{label}</span>
+            <lightning-icon
+              icon-name="utility:chevronright"
+              size="x-small"
+            ></lightning-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </template>
+
+  <template if:true={uploadFilesModal}>
+    <c-upload-files-modal
+      record-id={recordId}
+      onselected={handleFileModalClosed}
+    >
+    </c-upload-files-modal>
+  </template>
+  <template if:true={downloadFilesModal}>
+    <c-download-files-modal
+      record-id={recordId}
+      file-size={fileSize}
+      selected-files={selectedRows}
+      download-type={downloadType}
+      onselected={handleDownloadFileModalClosed}
+    >
+    </c-download-files-modal>
+  </template>
+  <template if:true={isImageClicked}>
+    <c-photo-modal
+      clicked-image-url={clickedImageUrl}
+      onselected={handleModalClosed}
+    ></c-photo-modal>
+  </template>
+  <template if:true={displaySpinner}>
+    <div>
+      <lightning-spinner
+        variant="brand"
+        alternative-text="Loading"
+        size="medium"
+      ></lightning-spinner>
+    </div>
+  </template>
+</template>

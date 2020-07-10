@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enhanced Files List</fullName>
+    <apiAccessLevel>Unrestricted</apiAccessLevel>
+    <namespacePrefix>efl</namespacePrefix>
+    <types>
+        <members>ContentVersionFieldsPicklist</members>
+        <members>ContentVersionFieldsPicklistTest</members>
+        <members>FilesListController</members>
+        <members>FilesListControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>mobilePanelList</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>downloadFilesModal</members>
+        <members>emptyIllustration</members>
+        <members>fileCard</members>
+        <members>mobileDataTable</members>
+        <members>mobilePanel</members>
+        <members>mobileSortButtonMenu</members>
+        <members>noFilesView</members>
+        <members>paginator</members>
+        <members>photo</members>
+        <members>photoModal</members>
+        <members>pubsub</members>
+        <members>uploadFilesModal</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>openRoad</members>
+        <name>StaticResource</name>
+    </types>
+    <version>48.0</version>
+</Package>

@@ -1,0 +1,64 @@
+<template>
+  <div>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container modal-style">
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse slds-current-color"
+            title="Close"
+            onclick={closeModal}
+          >
+            <lightning-icon
+              size="x-small"
+              icon-name="utility:close"
+              alternative-text="Close"
+              title="Close"
+            ></lightning-icon>
+          </button>
+          <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+            Download Files
+          </h2>
+        </header>
+        <template if:false={displayEmptyIllustration}>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-1"
+          >
+            Are you sure you want to download {filesCount} files worth {fileSize} MB?
+          </div>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={downloadFiles}>Download</button>
+          </footer>
+        </template>
+        <template if:true={displayEmptyIllustration}>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-2"
+          >
+            <c-empty-illustration
+              body="Looks like you have not chosen any files to download..."
+            >
+            </c-empty-illustration>
+          </div>
+        </template>
+      </div>
+    </section>
+    <template if:true={displaySpinner}>
+        <div>
+          <lightning-spinner
+            variant="brand"
+            alternative-text="Loading"
+            size="medium"
+          ></lightning-spinner>
+        </div>
+      </template>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </div>
+</template>

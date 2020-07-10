@@ -1,0 +1,23 @@
+<template>
+  <template if:true={displayPrevious}>
+    <lightning-button-icon
+      icon-name="utility:chevronleft"
+      size="medium"
+      class="slds-m-left_xx-small"
+      onclick={previousHandler}
+    ></lightning-button-icon>
+  </template>
+  <template if:false={singlePageDisplay}>
+    <span class="slds-p-around_small">
+      {page} of {totalPage}
+    </span>
+  </template>
+  <template if:true={displayNext}>
+    <lightning-button-icon
+      icon-name="utility:chevronright"
+      size="medium"
+      class="slds-m-left_xx-small"
+      onclick={nextHandler}
+    ></lightning-button-icon>
+  </template>
+</template>

@@ -1,0 +1,65 @@
+<template>
+  <template for:each={filesData} for:item="item" for:index="index">
+    <div class="slds-scrollable" key={item.Id}>
+      <div class="slds-border_top"></div>
+      <div class="slds-grid slds-truncate slds-p-vertical_xx-small">
+        <span
+          style="float:left;cursor:pointer"
+          class="slds-col slds-size_3-of-12 slds-align_absolute-center slds-col_bump-left slds-p-horizontal_xxx-small"
+        >
+          <c-photo
+            community={community}
+            content-id={item.Id}
+            content-document-id={item.ContentDocumentId}
+          ></c-photo>
+        </span>
+        <p
+          class="slds-truncate slds-col slds-size_8-of-12 slds-p-left_xxx-small"
+          data-id={item.ContentDocumentId}
+        >
+          <template
+            for:each={minMobileColumns}
+            for:item="column"
+            for:index="index"
+          >
+            <lightning-record-view-form
+              key={column.fieldName}
+              record-id={item.Id}
+              object-api-name="ContentVersion"
+              density="auto"
+            >
+              <lightning-output-field
+                field-class="slds-truncate"
+                class="slds-form-element_1-col"
+                field-name={column.fieldName}
+              ></lightning-output-field>
+            </lightning-record-view-form>
+          </template>
+        </p>
+        <template if:true={viewFile}>
+          <span
+            style="float:right;cursor:pointer"
+            class="slds-col slds-size_1-of-12 slds-align_absolute-center slds-col_bump-right"
+            onclick={viewDetails}
+            data-id={item.ContentDocumentId}
+          >
+            <lightning-icon
+              icon-name="utility:info_alt"
+              size="x-small"
+            ></lightning-icon>
+          </span>
+        </template>
+      </div>
+      <div class="slds-border_bottom"></div>
+    </div>
+  </template>
+  <template if:true={displaySpinner}>
+    <div>
+      <lightning-spinner
+        variant="brand"
+        alternative-text="Loading"
+        size="medium"
+      ></lightning-spinner>
+    </div>
+  </template>
+</template>

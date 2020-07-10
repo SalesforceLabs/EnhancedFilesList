@@ -1,0 +1,35 @@
+<aura:component implements="lightning:isUrlAddressable,force:hasRecordId">
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="label" type="String" />
+  <aura:attribute name="icon" type="String" />
+  <aura:attribute name="columns" type="Object" />
+  <aura:attribute name="filesData" type="Object" />
+  <aura:attribute name="filteredColumnList" type="Object" />
+  <aura:attribute name="minMobileColumns" type="Integer" />
+  <aura:attribute name="totalFilesCount" type="Integer" />
+  <aura:attribute name="zeroFilesData" type="Integer" />
+  <aura:attribute name="page" type="Integer" />
+  <aura:attribute name="pageEvent" type="Integer"/>
+  <aura:attribute name="uploadFiles" type="Boolean" />
+  <aura:attribute name="displayNextIcon" type="Boolean" />
+  
+  <div aura:id="containerDiv" class="slds-scrollable_y">
+    <c:mobilePanel
+      recordId="{!v.recordId}"
+      label="{!v.label}"
+      icon="{!v.icon}"
+      columns="{!v.columns}"
+      filesData="{!v.filesData}"
+      minMobileColumns="{!v.minMobileColumns}"
+      filteredColumnList="{!v.filteredColumnList}"
+      totalFilesCount="{!v.totalFilesCount}"
+      zeroFilesData="{!v.zeroFilesData}"
+      uploadFiles="{!v.uploadFiles}"
+      displayNextIcon="{!v.displayNextIcon}"
+      page="{!v.page}"
+    >
+    </c:mobilePanel>
+  </div>
+</aura:component>
