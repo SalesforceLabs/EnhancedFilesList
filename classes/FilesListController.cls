@@ -11,7 +11,7 @@ public with sharing class FilesListController {
         //return query via searchTerm
 
         if(Schema.sObjectType.ContentDocumentLink.isAccessible()){
-            List<ContentDocumentLink> files = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId WITH SECURITY_ENFORCED ];
+            List<ContentDocumentLink> files = [ ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId WITH SECURITY_ENFORCED ALL ROWS];
             List<ID>fileIDs = new List<ID>();
             for (ContentDocumentLink fileLink : files){
                 fileIDs.add(fileLink.ContentDocumentId);
@@ -19,7 +19,7 @@ public with sharing class FilesListController {
             if(Schema.sObjectType.ContentVersion.isAccessible()){
                 String queryContentVersion = 'SELECT Id, ContentDocumentId, ContentSize,' + String.escapeSingleQuotes(fieldsParameter) + ' FROM ContentVersion'; 
                 System.debug(queryContentVersion);
-                List<ContentVersion> filesList = Database.query(String.escapeSingleQuotes(queryContentVersion) + ' WHERE ContentDocumentId IN :fileIds AND Title LIKE :searchTerm WITH SECURITY_ENFORCED ORDER BY LastModifiedDate DESC LIMIT :queryLimit');
+                List<ContentVersion> filesList = Database.query(String.escapeSingleQuotes(queryContentVersion) + ' WHERE ContentDocumentId IN :fileIds AND Title LIKE :searchTerm WITH SECURITY_ENFORCED ORDER BY LastModifiedDate DESC LIMIT :queryLimit ALL ROWS');
                 return filesList;
             }
             else {
@@ -33,7 +33,7 @@ public with sharing class FilesListController {
 
     @AuraEnabled(Cacheable=true)
     public static List<ContentVersion> getAllRelatedList(String recordId, String fieldsParameter, Integer queryLimit) {
-        List<ContentDocumentLink> files = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId ];
+        List<ContentDocumentLink> files = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId ALL ROWS];
         List<ID>fileIDs = new List<ID>();
         for (ContentDocumentLink fileLink : files){
             fileIDs.add(fileLink.ContentDocumentId);
@@ -41,7 +41,7 @@ public with sharing class FilesListController {
         String queryContentVersion = 'SELECT Id, ContentDocumentId, ' + String.escapeSingleQuotes(fieldsParameter) + ' FROM ContentVersion'; 
         System.debug(queryContentVersion);
         if(Schema.sObjectType.ContentVersion.isAccessible()){
-            List<ContentVersion> filesList = Database.query(String.escapeSingleQuotes(queryContentVersion) + ' WHERE ContentDocumentId IN :fileIds WITH SECURITY_ENFORCED ORDER BY LastModifiedDate DESC LIMIT :queryLimit');
+            List<ContentVersion> filesList = Database.query(String.escapeSingleQuotes(queryContentVersion) + ' WHERE ContentDocumentId IN :fileIds WITH SECURITY_ENFORCED ORDER BY LastModifiedDate DESC LIMIT :queryLimit ALL ROWS');
             return filesList;
         }
         else {
@@ -52,7 +52,7 @@ public with sharing class FilesListController {
     @AuraEnabled(cacheable=true)
     public static Integer getTotalCount(String recordId){
         if(Schema.sObjectType.ContentDocumentLink.isAccessible()){
-            AggregateResult totalAggregateCount = [SELECT count(ContentDocumentId) total FROM ContentDocumentLink WHERE LinkedEntityId = :recordId WITH SECURITY_ENFORCED ];
+            AggregateResult totalAggregateCount = [SELECT count(ContentDocumentId) total FROM ContentDocumentLink WHERE LinkedEntityId = :recordId WITH SECURITY_ENFORCED ALL ROWS ];
             Integer count = (Integer)totalAggregateCount.get('total');
             return count;
         }
