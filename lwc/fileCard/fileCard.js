@@ -125,7 +125,7 @@ export default class ContactDataTable extends NavigationMixin(
       this.filesData = undefined;
       this.filesError = result.error;
     }
-    if (this.filesData && this.objectInfoData.apiName === "ContentVersion") {
+    if (this.filesData && this.objectInfoData && this.objectInfoData.apiName === "ContentVersion") {
       this.createDataTableColumns();
     }
   }
@@ -200,7 +200,7 @@ export default class ContactDataTable extends NavigationMixin(
       this.objectInfoData = undefined;
       this.objectInfoError = result.error;
     }
-    if (this.filesData && this.objectInfoData.apiName === "ContentVersion") {
+    if (this.filesData && this.objectInfoData && this.objectInfoData.apiName === "ContentVersion") {
       this.createDataTableColumns();
     }
   }
